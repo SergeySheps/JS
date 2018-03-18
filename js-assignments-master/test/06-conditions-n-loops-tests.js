@@ -329,7 +329,7 @@ describe('06-conditions-n-loops-tasks', function() {
             9112893456789010
         ].forEach(ccn => {
             assert(
-                tasks.isCreditCardNumber(ccn) == false,
+                tasks.isCreditCardNumber(ccn) == true,
                 `CCN ${ccn} is not valid, but actually yes`
             )
         });

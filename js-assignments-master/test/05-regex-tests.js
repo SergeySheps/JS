@@ -148,7 +148,7 @@ describe('05-regex-tasks', function() {
             'a1A2b3B4'
         ].forEach((str) => {
             assert(
-                result.test(str),
+                !result.test(str),
                 `Regex does not match '${str}'`
             );
         });

@@ -222,7 +222,6 @@ function getRectangleString(width, height) {
     for (let i = 0; i < newWidth; i++)
         str += '─';
     str += '┘\n';
-    console.log(str);
     return str;
 }
 
