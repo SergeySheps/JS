@@ -24,7 +24,14 @@
  *    console.log(r.getArea());   // => 200
  */
 function Rectangle(width, height) {
-    throw new Error('Not implemented');
+    let obj = {
+        width:width,
+        height:height,
+        getArea(){
+            return this.width * this.height;
+        }
+    }
+    return obj;
 }
 
 
@@ -39,7 +46,7 @@ function Rectangle(width, height) {
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
 function getJSON(obj) {
-    throw new Error('Not implemented');
+    return JSON.stringify(obj);
 }
 
 
@@ -55,8 +62,12 @@ function getJSON(obj) {
  *
  */
 function fromJSON(proto, json) {
+    //console.log(Object.assign(new Object(proto),new proto.constructor(),JSON.parse(json)));
+    //return Object.assign(new Object(proto),new proto.constructor(),JSON.parse(json));
+    //что просит то и возвращает, но тест не проходит....
     throw new Error('Not implemented');
 }
+
 
 
 /**
@@ -110,36 +121,76 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-
+    //str:"",
     element: function(value) {
         throw new Error('Not implemented');
+        this.str +=''+value;
+        return this;
     },
 
     id: function(value) {
         throw new Error('Not implemented');
+        this.str +=`#${value}`;
+        return this;
     },
 
     class: function(value) {
         throw new Error('Not implemented');
+        this.str +=`.${value}`;
+        return this;
     },
 
     attr: function(value) {
         throw new Error('Not implemented');
+        this.str +=`[${value}]`;
+        return this;
     },
 
     pseudoClass: function(value) {
         throw new Error('Not implemented');
+        this.str +=`:${value}`;
+        return this;
     },
 
     pseudoElement: function(value) {
         throw new Error('Not implemented');
+        this.str +=`::${value}`;
+        return this;
+  
     },
 
     combine: function(selector1, combinator, selector2) {
         throw new Error('Not implemented');
+        this.str +=`${selector1} ${combinator} ${selector2}`;
+        return this;
     },
+    stringify(){
+        throw new Error('Not implemented');
+        let res = this.str;
+        this.str ='';
+        return res;
+    }
+    
 };
 
+var builder = cssSelectorBuilder;
+ 
+ //console.log(builder.id('main').class('container').class('editable').stringify());
+ //console.log(builder.element('a').attr('href$=".png"').pseudoClass('focus').stringify());
+ /*console.log(builder.combine(
+          builder.element('div').id('main'),
+          '+',
+          builder.combine(
+              builder.element('table').id('data'),
+              '~',
+               builder.combine(
+                   builder.element('tr').pseudoClass('nth-of-type(even)'),
+                   ' ',
+                   builder.element('td').pseudoClass('nth-of-type(even)')
+               )
+          )
+      ).stringify() );*/ // Не решено, сначала вызывает элементы, а на обратном пути combine
+//'div#main.container.draggable + table#data ~ tr:nth-of-type(even)   td:nth-of-type(even)'
 
 module.exports = {
     Rectangle: Rectangle,

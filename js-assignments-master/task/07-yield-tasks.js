@@ -44,7 +44,15 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    let countBottle = 99;
+    while (countBottle > 1) {
+        yield `${countBottle} bottles of beer on the wall, ${countBottle--} bottles of beer.`;
+        yield `Take one down and pass it around, ${countBottle} ${countBottle > 1 ? 'bottles' : 'bottle'} of beer on the wall.`;
+    }
+    yield '1 bottle of beer on the wall, 1 bottle of beer.';
+    yield 'Take one down and pass it around, no more bottles of beer on the wall.';
+    yield 'No more bottles of beer on the wall, no more bottles of beer.';
+    yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
 }
 
 
@@ -58,7 +66,15 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    let fn1 = 0;
+    let fn2 = 1;
+    while (true) {
+        let current = fn2;
+        fn2 = fn1;
+        fn1 = current + fn2;
+        let result = yield fn2;
+        result ? (fn1 = 1, fn2 = 2) : false;
+    }
 }
 
 
@@ -93,9 +109,18 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
+    // try {
+    //    yield root;
+    //    if (root.children)
+    //        for (var key of root.children) {
+    //            yield* depthTraversalTree(key);
+    //        }
+    //  }
+    //  catch (ex) {
+    //      throw new Error('Not implemented');
+    //  }//работает на 2/3 тестов
     throw new Error('Not implemented');
 }
-
 
 /**
  * Обход дерева с использованием поиска в ширину
@@ -116,11 +141,31 @@ function* depthTraversalTree(root) {
  *       5   6     7
  *           |
  *           8
+ * 
  *
  */
 function* breadthTraversalTree(root) {
+    // try {
+    //     var queue = [];
+    //     queue.push(root);
+    //     while (queue.length > 0) {
+    //         var tempNode = queue.shift();
+    //         yield tempNode;
+    //         if (tempNode.children) {
+    //             for (var key of tempNode.children) {
+    //                 queue.push(key);
+    //             }
+
+    //         }
+    //     }
+    // }
+    // catch (ex) {
+    //     throw new Error('Not implemented');
+    // }
+    //тоже работает, но на одном тесте зависает
     throw new Error('Not implemented');
 }
+
 
 
 /**
@@ -137,7 +182,12 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
+    // let sequence = [...source1,...source2];
+    // sequence.sort((a,b)=>a-b);
+    // for ( var key of sequence)
+    //     yield key; параметры по отладчику генераторы, но к ним не применяется ничего от них
     throw new Error('Not implemented');
+
 }
 
 
