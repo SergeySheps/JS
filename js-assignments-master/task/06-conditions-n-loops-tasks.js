@@ -30,9 +30,10 @@
  *
  */
 function getFizzBuzz(num) {
-    return ((num % 3 == 0) && (num % 5 == 0)) ? 'FizzBuzz' : (num % 3 == 0 ? 'Fizz' : (num % 5 == 0 ? 'Buzz' : num));
+    return ((num % 3 == 0) && (num % 5 == 0)) ? 'FizzBuzz' 
+    : (num % 3 == 0 ? 'Fizz' : (num % 5 == 0 ? 'Buzz' : num));
 }
-
+getFizzBuzz(15);
 
 /**
  * Возвращает факториал переданного целого числа n.

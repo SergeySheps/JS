@@ -151,7 +151,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    return str.slice(1, -1);
+    return str.slice(str.indexOf('<')+1, str.lastIndexOf('>'));
 }
 
 

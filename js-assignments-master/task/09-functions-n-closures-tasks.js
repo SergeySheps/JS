@@ -228,7 +228,6 @@ function getIdGeneratorFunction(startFrom) {
     }
 }
 
-
 module.exports = {
     getComposition: getComposition,
     getPowerFunction: getPowerFunction,

@@ -109,16 +109,16 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    // try {
-    //    yield root;
-    //    if (root.children)
-    //        for (var key of root.children) {
-    //            yield* depthTraversalTree(key);
-    //        }
-    //  }
-    //  catch (ex) {
-    //      throw new Error('Not implemented');
-    //  }//работает на 2/3 тестов
+    //  try {
+    //     yield root;
+    //     if (root.children)
+    //         for (var key of root.children) {
+    //             yield* depthTraversalTree(key);
+    //         }
+    //   }
+    //   catch (ex) {
+    //       throw new Error('Not implemented');
+    //   }//работает на 2/3 тестов
     throw new Error('Not implemented');
 }
 
@@ -182,13 +182,25 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    // let sequence = [...source1,...source2];
-    // sequence.sort((a,b)=>a-b);
-    // for ( var key of sequence)
-    //     yield key; параметры по отладчику генераторы, но к ним не применяется ничего от них
-    throw new Error('Not implemented');
+    let gen1 = source1();
+    let gen2 = source2();
+    let a = gen1.next();
+    let b = gen2.next();
+    while (!a.done || !b.done) {
+        if ((a.value > b.value || a.value == undefined) ) {
+            yield b.value;
+            b = gen2.next();
+        }
+        else if ((b.value > a.value|| b.value == undefined) ) {
+            yield a.value;
+            a = gen1.next();
+        }
+    }
 
 }
+
+
+
 
 
 module.exports = {

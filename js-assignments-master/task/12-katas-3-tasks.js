@@ -2,7 +2,8 @@
 
 /**
  * Возвращает true если слово попадается в заданной головоломке.
- * Каждое слово может быть построено при помощи прохода "змейкой" по таблице вверх, влево, вправо, вниз.
+ * Каждое слово может быть построено при помощи прохода "змейкой" по таблице вверх, влево, вправо,
+ *  вниз.
  * Каждый символ может быть использован только один раз ("змейка" не может пересекать себя).
  *
  * @param {array} puzzle
@@ -44,9 +45,31 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  *    'ab'  => 'ab','ba'
  *    'abc' => 'abc','acb','bac','bca','cab','cba'
  */
-function* getPermutations(chars) {
-    throw new Error('Not implemented');
+function Perm(str) {
+    let ret = [];
+
+    if (str.length == 1) return [str];
+    if (str.length == 2) return str != str[1] + str[0] ? [str, str[1] + str[0]] : [str];
+
+    str.split('').forEach(function (chr, idx, arr) {
+        let sub = [...arr];
+        sub.splice(idx, 1);
+        Perm(sub.join('')).forEach(function (perm) {
+            ret.push(chr + perm);
+        });
+    });
+
+    return ret.filter((elem, pos, arr) => {
+        return arr.indexOf(elem) == pos;
+    });
 }
+function* getPermutations(chars) {
+    let ret = Perm(chars);
+    for (let i = 0; i < ret.length; i++) {
+        yield ret[i];
+    }
+}
+
 
 
 /**
@@ -65,7 +88,11 @@ function* getPermutations(chars) {
  *    [ 1, 6, 5, 10, 8, 7 ] => 18  (купить по 1,6,5 и затем продать все по 10)
  */
 function getMostProfitFromStockQuotes(quotes) {
-    throw new Error('Not implemented');
+    if (!quotes.length) return 0;
+    let maxNum = Math.max.apply(null, quotes);
+    let indMax = quotes.lastIndexOf(maxNum);
+    return quotes.slice(0, indMax).reduce((prev, curr) => prev += maxNum - curr, 0) +
+        getMostProfitFromStockQuotes(quotes.slice(indMax + 1));
 }
 
 
@@ -84,20 +111,29 @@ function getMostProfitFromStockQuotes(quotes) {
  * 
  */
 function UrlShortener() {
-    this.urlAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"+
-                           "abcdefghijklmnopqrstuvwxyz"+
-                           "0123456789-_.~!*'();:@&=+$,/?#[]";
+    this.urlAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        "abcdefghijklmnopqrstuvwxyz" +
+        "0123456789-_.~!*'();:@&=+$,/?#[]";
 }
 
 UrlShortener.prototype = {
 
-    encode: function(url) {
-        throw new Error('Not implemented');
+    encode: function (url) {
+        var res = '';
+        for (let i = 0; i * 2 < url.length; i++) {
+            res += String.fromCodePoint(url.codePointAt(2 * i) * 256 + (url.codePointAt(2 * i + 1) || 0))
+        }
+        return res;
     },
-    
-    decode: function(code) {
-        throw new Error('Not implemented');
-    } 
+
+    decode: function (code) {
+        var res = '';
+        for (let i = 0; i < code.length; i++) {
+            let c = code.codePointAt(i);
+            res += String.fromCodePoint(c / 256 | 0) + (c % 256 ? String.fromCodePoint(c % 256) : '');
+        }
+        return res;
+    }
 }
 
 
