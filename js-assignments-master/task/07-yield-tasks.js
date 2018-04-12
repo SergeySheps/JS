@@ -109,18 +109,30 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    //  try {
-    //     yield root;
-    //     if (root.children)
-    //         for (var key of root.children) {
-    //             yield* depthTraversalTree(key);
-    //         }
-    //   }
-    //   catch (ex) {
-    //       throw new Error('Not implemented');
-    //   }//работает на 2/3 тестов
-    throw new Error('Not implemented');
+    const stack = [];
+    stack.push(root);
+    while (stack.length) {
+        let cur = stack.pop();
+        yield cur;
+        if (cur.children) {
+            cur.children.reverse().forEach(x =>
+                stack.push(x));
+        }
+    }
 }
+// function* depthTraversalTree(root) {
+//      try {
+//         yield root;
+//         if (root.children)
+//             for (var key of root.children) {
+//                 yield* depthTraversalTree(key);
+//             }
+//       }
+//       catch (ex) {
+//           throw new Error('Not implemented');
+//       }//работает на 2/3 тестов
+//     throw new Error('Not implemented');
+// }
 
 /**
  * Обход дерева с использованием поиска в ширину
@@ -144,7 +156,17 @@ function* depthTraversalTree(root) {
  * 
  *
  */
+
 function* breadthTraversalTree(root) {
+    let queue = [[root]];
+    while (queue.length > 0) {
+        for (let node of queue.shift()) {
+            yield node;
+            if (node.children) queue.push(node.children);
+        }
+    }
+}
+//function* breadthTraversalTree(root) {
     // try {
     //     var queue = [];
     //     queue.push(root);
@@ -163,8 +185,8 @@ function* breadthTraversalTree(root) {
     //     throw new Error('Not implemented');
     // }
     //тоже работает, но на одном тесте зависает
-    throw new Error('Not implemented');
-}
+  //  throw new Error('Not implemented');
+//}
 
 
 

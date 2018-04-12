@@ -464,11 +464,11 @@ function getCommonDirectoryPath(pathes) {
     let flag = false;
     while (!flag) {
         posSlash = pathes[0].indexOf('/', posSlash + 1);
-        if (posSlash == -1)
+        if (posSlash === -1)
             break;
         strCommon = pathes[0].slice(0, posSlash + 1);
         for (let i = 1; i < pathes.length; i++) {
-            if (pathes[i].indexOf(strCommon) != 0) {
+            if (pathes[i].indexOf(strCommon) !== 0) {
                 flag = true;
                 break;
             }

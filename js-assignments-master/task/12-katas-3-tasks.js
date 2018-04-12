@@ -29,7 +29,70 @@
  *   'NULL'      => false 
  */
 function findStringInSnakingPuzzle(puzzle, searchStr) {
-    throw new Error('Not implemented');
+
+    class RouteMap {
+        constructor() {
+            this._route = {};
+            this._width = puzzle[0].length;
+            this._height = puzzle.length;
+        }
+
+        _key(x, y) {
+            return `${x},${y}`;
+        }
+
+        markAvailable(x, y) {
+            this._route[this._key(x, y)] = false;
+        }
+
+        markVisited(x, y) {
+            this._route[this._key(x, y)] = true;
+        }
+
+        isAvailable(x, y) {
+            return x >= 0
+                && x < this._width
+                && y >= 0
+                && y < this._height
+                && !this._route[this._key(x, y)];
+        }
+    }
+
+    function* getSiblings(x, y) {
+        yield [x - 1, y];
+        yield [x + 1, y];
+        yield [x, y - 1];
+        yield [x, y + 1];
+    }
+
+    function checkRoute(x, y, search, route) {
+        if (!route.isAvailable(x, y) || puzzle[y][x] !== search[0]) {
+            return false;
+        }
+        if (search.length === 1) {
+            return true;
+        }
+        route.markVisited(x, y);
+        const nextSearch = search.slice(1);
+
+        for (let [sx, sy] of getSiblings(x, y)) {
+            if (checkRoute(sx, sy, nextSearch, route)) {
+                return true;
+            }
+        }
+
+        route.markAvailable(x, y);
+        return false;
+    }
+
+    for (let y = 0; y < puzzle.length; ++y) {
+        for (let x = 0; x < puzzle[0].length; ++x) {
+            if (checkRoute(x, y, searchStr, new RouteMap())) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 

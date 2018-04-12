@@ -77,7 +77,71 @@ function createCompassPoints() {
  *   'nothing to do' => 'nothing to do'
  */
 function* expandBraces(str) {
-    throw new Error('Not implemented');
+    const OPEN_BR = '{';
+    const CLOSE_BR = '}';
+    const SEPARATOR = ',';
+
+    yield* parse(str);
+
+    function parse(str) {
+        let items = [''];
+        let pos = 0;
+        while (str[pos]) {
+            if (str[pos] !== OPEN_BR) {
+                items = combine(items, [readUntil([OPEN_BR])]);
+            } else {
+                pos += 1;
+                items = combine(items, parseExpr());
+            }
+        }
+        return items;
+
+        function parseExpr() {
+            let items = [];
+            let sepCount = 0;
+            while (str[pos] !== CLOSE_BR) {
+                if (str[pos] === SEPARATOR) {
+                    pos += 1;
+                    sepCount += 1;
+                } else {
+                    items = items.concat(parseExprPart());
+                }
+            }
+            if (items.length < sepCount + 1) items.push('');
+            pos += 1;
+            return items;
+        }
+
+        function parseExprPart() {
+            let items = [''];
+            while (str[pos] !== SEPARATOR && str[pos] !== CLOSE_BR) {
+                if (str[pos] !== OPEN_BR) {
+                    items = combine(items, [readUntil([SEPARATOR, OPEN_BR, CLOSE_BR])]);
+                } else {
+                    pos += 1;
+                    items = combine(items, parseExpr());
+                }
+            }
+            return items;
+        }
+
+        function combine(leftItems, rightItems) {
+            const res = [];
+            for (let left of leftItems)
+                for (let right of rightItems)
+                    res.push(left + right);
+            return res;
+        }
+
+        function readUntil(chars) {
+            let res = '';
+            while (str[pos] && chars.every(x => x !== str[pos])) {
+                res += str[pos];
+                pos += 1;
+            }
+            return res;
+        }
+    }
 }
 
 
